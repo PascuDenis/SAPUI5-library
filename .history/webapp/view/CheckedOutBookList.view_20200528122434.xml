@@ -14,15 +14,6 @@
            mode="SingleSelectLeft"
            growing="true"
            growingThreshold="10">
-        <headerToolbar>
-            <Toolbar>
-                <Button icon="sap-icon://add" text="Add new book" press="onAdd"/>
-                <Button icon="sap-icon://edit" text="Update book" press="onUpdate"/>
-                <Button icon="sap-icon://list" text="See checked out books" press="onSeeCheckedOut"/>
-                <ToolbarSpacer/>
-                <Button icon="sap-icon://delete" text="Delete book" press="onDelete"/>
-            </Toolbar>
-        </headerToolbar>
 
         <columns>
             <Column>
@@ -76,12 +67,6 @@
                     <Text text="{CREATED_BY}"/>
                     <Text text="{CHANGED_ON}"/>
                     <Text text="{CHANGED_BY}"/>
-                    <!-- <Text text="{= parseInt(${AVAILBLE_BOOKS}) }"/>
-                    <Text text="{= parseInt(${TOTAL_NUMBER}) }"/>
-                    <Text text="{= parseInt(${CREATED_ON}) }"/>
-                    <Text text="{= parseInt(${CREATED_BY}) }"/>
-                    <Text text="{= parseInt(${CHANGED_ON}) }"/>
-                    <Text text="{= parseInt(${CHANGED_BY}) }"/> -->
                 </cells>
             </ColumnListItem>
         </items>

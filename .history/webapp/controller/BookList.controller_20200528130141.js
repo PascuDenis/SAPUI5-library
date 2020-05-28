@@ -147,11 +147,11 @@ sap.ui.define(
       onUpdate(oEvent) {
         var oBundle = this.getView().getModel("i18n").getResourceBundle();
         const selectedRows = this.byId("idBooksTable").getSelectedContexts();
+        var oView = this.getView();
         if (selectedRows.length === 0) {
           var sMsg = oBundle.getText("noBook");
           MessageToast.show(sMsg);
         } else {
-          var oView = this.getView();
           var oObject = oView
             .byId("idBooksTable")
             .getSelectedContexts()[0]
@@ -187,7 +187,7 @@ sap.ui.define(
             });
           } else {
             var oModel = new sap.ui.model.json.JSONModel();
-            this.getView().getDialog().setModel(oModel);
+            oDialog.setModel(oModel);
             oDialog.getModel().setData(book);
             this.byId("idBookUpdateDialog").open();
           }
@@ -282,6 +282,8 @@ sap.ui.define(
       },
 
       handleCloseCheckedOutBooksDialog() {
+        console.log("close");
+
         this.byId("idCheckedOutBooksDialog").close();
       },
     });

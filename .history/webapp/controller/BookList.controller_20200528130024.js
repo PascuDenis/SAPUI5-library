@@ -187,7 +187,7 @@ sap.ui.define(
             });
           } else {
             var oModel = new sap.ui.model.json.JSONModel();
-            this.getView().getDialog().setModel(oModel);
+            oDialog.setModel(oModel);
             oDialog.getModel().setData(book);
             this.byId("idBookUpdateDialog").open();
           }
@@ -280,8 +280,9 @@ sap.ui.define(
           this.byId("idCheckedOutBooksDialog").open();
         }
       },
-
       handleCloseCheckedOutBooksDialog() {
+        console.log("close");
+        
         this.byId("idCheckedOutBooksDialog").close();
       },
     });

@@ -187,7 +187,7 @@ sap.ui.define(
             });
           } else {
             var oModel = new sap.ui.model.json.JSONModel();
-            this.getView().getDialog().setModel(oModel);
+            oDialog.setModel(oModel);
             oDialog.getModel().setData(book);
             this.byId("idBookUpdateDialog").open();
           }
@@ -204,7 +204,7 @@ sap.ui.define(
         var oDialogData = oModel.getData();
         var validForm = true;
         console.log(oDialogData);
-
+        
         if (oDialogData.ISBN.length === 0) {
           validForm = false;
           var sMsg = oBundle.getText("isbnReq");
@@ -260,29 +260,6 @@ sap.ui.define(
             });
         }
         this.byId("idBookUpdateDialog").close();
-      },
-
-      onSeeCheckedOut() {
-        var oView = this.getView();
-
-        if (!this.byId("idCheckedOutBooksDialog")) {
-          // load asynchronous XML fragment
-          Fragment.load({
-            id: oView.getId(),
-            name: "org.ubb.books.view.CheckedOutBookListDialog",
-            controller: this,
-          }).then(function (oDialog) {
-            // connect dialog to the root view of this component (models, lifecycle)
-            oView.addDependent(oDialog);
-            oDialog.open();
-          });
-        } else {
-          this.byId("idCheckedOutBooksDialog").open();
-        }
-      },
-
-      handleCloseCheckedOutBooksDialog() {
-        this.byId("idCheckedOutBooksDialog").close();
       },
     });
   }

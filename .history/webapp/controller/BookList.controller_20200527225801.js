@@ -106,27 +106,27 @@ sap.ui.define(
           var sMsg = oBundle.getText("titleReq");
           MessageToast.show(sMsg);
         }
-        // if (oDialogData.LANGUAGE.length === 0) {
-        //   validForm = false;
-        //   var sMsg = oBundle.getText("langReq");
-        //   MessageToast.show(sMsg);
-        // }
-        // if(oDialogData.LANGUAGE !== 'EN' || oDialogData.LANGUAGE !== 'DE' || oDialogData.LANGUAGE !== 'RU'
-        // || oDialogData.LANGUAGE !== 'FR' || oDialogData.LANGUAGE !== 'PT' || oDialogData.LANGUAGE !== 'ES') {
-        //     validForm = false;
-        //     var sMsg = oBundle.getText("invalidLanguage");
-        //     MessageToast.show(sMsg);
-        // }
-        oDialogData.AVAILBLE_BOOKS = oDialogData.AVAILBLE_BOOKS;
-        oDialogData.TOTAL_NUMBER = oDialogData.TOTAL_NUMBER;
+        if (oDialogData.LANGUAGE.length === 0) {
+          validForm = false;
+          var sMsg = oBundle.getText("langReq");
+          MessageToast.show(sMsg);
+        }
+        if(oDialogData.LANGUAGE !== 'EN' || oDialogData.LANGUAGE !== 'DE' || oDialogData.LANGUAGE !== 'RU'
+        || oDialogData.LANGUAGE !== 'FR' || oDialogData.LANGUAGE !== 'PT' || oDialogData.LANGUAGE !== 'ES') {
+            validForm = false;
+            var sMsg = oBundle.getText("invalidLanguage");
+            MessageToast.show(sMsg);
+        }
+        oDialogData.AVAILBLE_BOOKS = parseInt(oDialogData.AVAILBLE_BOOKS);
+        oDialogData.TOTAL_NUMBER = parseInt(oDialogData.TOTAL_NUMBER);
         if (oDialogData.AVAILBLE_BOOKS > oDialogData.TOTAL_NUMBER) {
           validForm = false;
           var sMsg = oBundle.getText("noGreater");
           MessageToast.show(sMsg);
         }
         oDialogData.DATE_PUBLISHED = "2015-12-31T00:00:00";
-        oDialogData.CREATED_ON = "2015-12-31T12";
-        oDialogData.CHANGED_ON = "2015-12-31T12";
+        oDialogData.CREATED_ON = "2015-12-31T00:00:00";
+        oDialogData.CHANGED_ON = "2015-12-31T00:00:00";
         if (validForm) {
           this.getView()
             .getModel()
@@ -158,7 +158,7 @@ sap.ui.define(
             .getObject();
           var book = {
             ISBN: oObject.ISBN,
-            AUTHOR: oObject.AUTHOR,
+            AUTHOR: oObject.Author,
             TITLE: oObject.TITLE,
             DATE_PUBLISHED: oObject.DATE_PUBLISHED,
             LANGUAGE: oObject.LANGUAGE,
@@ -187,7 +187,7 @@ sap.ui.define(
             });
           } else {
             var oModel = new sap.ui.model.json.JSONModel();
-            this.getView().getDialog().setModel(oModel);
+            oDialog.setModel(oModel);
             oDialog.getModel().setData(book);
             this.byId("idBookUpdateDialog").open();
           }
@@ -203,8 +203,6 @@ sap.ui.define(
         var oModel = oEvent.getSource().getModel();
         var oDialogData = oModel.getData();
         var validForm = true;
-        console.log(oDialogData);
-
         if (oDialogData.ISBN.length === 0) {
           validForm = false;
           var sMsg = oBundle.getText("isbnReq");
@@ -230,16 +228,16 @@ sap.ui.define(
         //     var sMsg = oBundle.getText("invalidLanguage");
         //     MessageToast.show(sMsg);
         // }
-        oDialogData.AVAILBLE_BOOKS = oDialogData.AVAILBLE_BOOKS;
-        oDialogData.TOTAL_NUMBER = oDialogData.TOTAL_NUMBER;
+        oDialogData.AVAILBLE_BOOKS = parseInt(oDialogData.AvailableNumber);
+        oDialogData.TOTAL_NUMBER = parseInt(oDialogData.TotalNumber);
         if (oDialogData.AVAILBLE_BOOKS > oDialogData.TOTAL_NUMBER) {
           validForm = false;
           var sMsg = oBundle.getText("noGreater");
           MessageToast.show(sMsg);
         }
-        oDialogData.DATE_PUBLISHED = "2015-12-31T00:00:00";
-        oDialogData.CREATED_ON = "2015-12-31T00";
-        oDialogData.CHANGED_ON = "2015-12-31T00";
+        // oDialogData.DATE_PUBLISHED = "2015-12-31T00:00:00";
+        oDialogData.CREATED_ON = "2015-12-31T00:00:00";
+        oDialogData.CHANGED_ON = "2015-12-31T00:00:00";
         if (validForm) {
           var oView = this.getView();
           var sPath = oView
@@ -260,29 +258,6 @@ sap.ui.define(
             });
         }
         this.byId("idBookUpdateDialog").close();
-      },
-
-      onSeeCheckedOut() {
-        var oView = this.getView();
-
-        if (!this.byId("idCheckedOutBooksDialog")) {
-          // load asynchronous XML fragment
-          Fragment.load({
-            id: oView.getId(),
-            name: "org.ubb.books.view.CheckedOutBookListDialog",
-            controller: this,
-          }).then(function (oDialog) {
-            // connect dialog to the root view of this component (models, lifecycle)
-            oView.addDependent(oDialog);
-            oDialog.open();
-          });
-        } else {
-          this.byId("idCheckedOutBooksDialog").open();
-        }
-      },
-
-      handleCloseCheckedOutBooksDialog() {
-        this.byId("idCheckedOutBooksDialog").close();
       },
     });
   }

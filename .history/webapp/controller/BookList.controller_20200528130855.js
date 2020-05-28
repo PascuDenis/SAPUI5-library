@@ -282,7 +282,7 @@ sap.ui.define(
       },
 
       handleCloseCheckedOutBooksDialog() {
-        this.byId("idCheckedOutBooksDialog").close();
+        this.byId("idBookUpdateDialog").close();
       },
     });
   }

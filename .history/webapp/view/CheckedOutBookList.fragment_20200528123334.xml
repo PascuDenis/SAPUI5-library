@@ -1,10 +1,10 @@
-<mvc:View
-        controllerName="org.ubb.books.controller.BookList"
-        xmlns:mvc="sap.ui.core.mvc"
-        xmlns:core="sap.ui.core"
-        xmlns="sap.m">
-
-    <Table id="idBooksTable"
+<core:FragmentDefinition id="idCheckedOutBooksFragment"
+                         controllerName="org.ubb.books.controller.BookList"
+                         xmlns="sap.m"
+                         xmlns:f="sap.ui.layout.form"
+                         xmlns:core="sap.ui.core">
+    <Dialog id="idCheckedOutBooksDialog">
+        <Table id="idBooksTable"
            items="{
 			path: '/BOOKS',
 			sorter: {
@@ -14,16 +14,7 @@
            mode="SingleSelectLeft"
            growing="true"
            growingThreshold="10">
-        <headerToolbar>
-            <Toolbar>
-                <Button icon="sap-icon://add" text="Add new book" press="onAdd"/>
-                <Button icon="sap-icon://edit" text="Update book" press="onUpdate"/>
-                <Button icon="sap-icon://list" text="See checked out books" press="onSeeCheckedOut"/>
-                <ToolbarSpacer/>
-                <Button icon="sap-icon://delete" text="Delete book" press="onDelete"/>
-            </Toolbar>
-        </headerToolbar>
-
+        
         <columns>
             <Column>
                 <Text text="{i18n>title}"/>
@@ -87,4 +78,5 @@
         </items>
     </Table>
 
-</mvc:View>
+    </Dialog>
+</core:FragmentDefinition>

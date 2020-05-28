@@ -18,7 +18,6 @@
             <Toolbar>
                 <Button icon="sap-icon://add" text="Add new book" press="onAdd"/>
                 <Button icon="sap-icon://edit" text="Update book" press="onUpdate"/>
-                <Button icon="sap-icon://list" text="See checked out books" press="onSeeCheckedOut"/>
                 <ToolbarSpacer/>
                 <Button icon="sap-icon://delete" text="Delete book" press="onDelete"/>
             </Toolbar>

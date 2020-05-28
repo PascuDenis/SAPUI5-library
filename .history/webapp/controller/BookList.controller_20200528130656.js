@@ -76,7 +76,15 @@ sap.ui.define(
             oDialog.open();
           });
         } else {
-          oDialog.getModel().setData(book);
+            Fragment.load({
+                id: oView.getId(),
+                name: "org.ubb.books.view.AddDialog",
+                controller: this,
+              }).then(function (oDialog) {
+                // connect dialog to the root view of this component (models, lifecycle)
+                oDialog.getModel().setData(book);
+                oDialog.open();
+              });
           this.byId("idBookAddDialog").open();
         }
       },
@@ -186,9 +194,9 @@ sap.ui.define(
               oDialog.open();
             });
           } else {
-            var oModel = new sap.ui.model.json.JSONModel();
-            this.getView().getDialog().setModel(oModel);
-            oDialog.getModel().setData(book);
+            // var oModel = new sap.ui.model.json.JSONModel();
+            // oDialog.setModel(oModel);
+            // oDialog.getModel().setData(book);
             this.byId("idBookUpdateDialog").open();
           }
         }
@@ -280,8 +288,10 @@ sap.ui.define(
           this.byId("idCheckedOutBooksDialog").open();
         }
       },
-
+      
       handleCloseCheckedOutBooksDialog() {
+        console.log("close");
+        
         this.byId("idCheckedOutBooksDialog").close();
       },
     });

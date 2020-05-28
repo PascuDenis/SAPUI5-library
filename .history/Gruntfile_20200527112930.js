@@ -17,7 +17,7 @@ module.exports = function(grunt) {
 
 	grunt.initConfig({
 
-		settings: {  
+		settings: {
             connect: {
                 host: 'localhost',
                 port: '9555'

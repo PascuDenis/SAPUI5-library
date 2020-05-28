@@ -187,7 +187,7 @@ sap.ui.define(
             });
           } else {
             var oModel = new sap.ui.model.json.JSONModel();
-            this.getView().getDialog().setModel(oModel);
+            oDialog.setModel(oModel);
             oDialog.getModel().setData(book);
             this.byId("idBookUpdateDialog").open();
           }
@@ -274,15 +274,15 @@ sap.ui.define(
           }).then(function (oDialog) {
             // connect dialog to the root view of this component (models, lifecycle)
             oView.addDependent(oDialog);
+            var oModel = new sap.ui.model.json.JSONModel();
+            oDialog.setModel(oModel);
+            // oDialog.getModel().setData(book);
             oDialog.open();
           });
         } else {
+          oDialog.getModel().setData(book);
           this.byId("idCheckedOutBooksDialog").open();
         }
-      },
-
-      handleCloseCheckedOutBooksDialog() {
-        this.byId("idCheckedOutBooksDialog").close();
       },
     });
   }
