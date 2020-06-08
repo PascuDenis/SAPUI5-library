@@ -11,16 +11,17 @@
 		}" mode="SingleSelectLeft" growing="true" growingThreshold="10">
         <headerToolbar>
             <Toolbar>
-                <content>
-
-                    <Button icon="sap-icon://add" text="Add new book" press="onAdd"/>
-                    <Button icon="sap-icon://edit" text="Update book" press="onUpdate"/>
-                    <Button icon="sap-icon://delete" text="Delete book" press="onDelete"/>
-                    <ToolbarSpacer/>
-                    <Button icon="sap-icon://bullet-text" text="See checked out books" press="onSeeCheckedOut"/>
-                    <Button icon="sap-icon://add" text="Check selected book out" press="handleCheckOutBook"/>
-
-                </content>
+                <Button icon="sap-icon://add" text="Add new book" press="onAdd"/>
+                <Button icon="sap-icon://edit" text="Update book" press="onUpdate(1)"/>
+                <Button icon="sap-icon://edit" text="See checked out books" press="onSeeCheckedOut"/>
+                <ToolbarSpacer/>
+                <Button icon="sap-icon://add" text="Check selected book out" press="onUpdate(2)"/>
+                <ToolbarSpacer/>
+                <Button icon="sap-icon://sorting-ranking" tooltip="Sort ascending across Categories and Name" press="sortCategoriesAndName"/>
+                <Button icon="sap-icon://sort" tooltip="Sort Categories" press="sortISBN"/>
+                <Button icon="sap-icon://decline" tooltip="Clear all sortings" press="clearAllSortings"/>
+                <ToolbarSpacer/>
+                <Button icon="sap-icon://delete" text="Delete book" press="onDelete"/>
             </Toolbar>
         </headerToolbar>
 
@@ -77,6 +78,12 @@
                     <Text text="{CREATED_BY}"/>
                     <Text text="{CHANGED_ON}"/>
                     <Text text="{CHANGED_BY}"/>
+                    <!-- <Text text="{= parseInt(${AVAILBLE_BOOKS}) }"/>
+                    <Text text="{= parseInt(${TOTAL_NUMBER}) }"/>
+                    <Text text="{= parseInt(${CREATED_ON}) }"/>
+                    <Text text="{= parseInt(${CREATED_BY}) }"/>
+                    <Text text="{= parseInt(${CHANGED_ON}) }"/>
+                    <Text text="{= parseInt(${CHANGED_BY}) }"/> -->
                 </cells>
             </ColumnListItem>
         </items>

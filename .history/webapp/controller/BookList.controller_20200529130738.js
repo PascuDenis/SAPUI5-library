@@ -4,8 +4,7 @@ sap.ui.define(
     "sap/m/MessageToast",
     "sap/ui/core/Fragment",
     "sap/ui/model/resource/ResourceModel",
-    "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator",
+    "sap/ui/table/library",
     "sap/ui/model/Sorter",
   ],
   function (
@@ -13,11 +12,11 @@ sap.ui.define(
     MessageToast,
     Fragment,
     ResourceModel,
-    Filter,
-    FilterOperator,
-    Sorter
+    Sorter,
+    library
   ) {
     "use strict";
+    var SortOrder = library.SortOrder;
     return Controller.extend("org.ubb.books.controller.BookList", {
       onInit: function () {
         var i18nModel = new ResourceModel({
@@ -71,6 +70,7 @@ sap.ui.define(
 
         var oView = this.getView();
 
+        // create dialog lazily
         if (!this.byId("idBookAddDialog")) {
           // load asynchronous XML fragment
           Fragment.load({
@@ -116,6 +116,17 @@ sap.ui.define(
           var sMsg = oBundle.getText("titleReq");
           MessageToast.show(sMsg);
         }
+        // if (oDialogData.LANGUAGE.length === 0) {
+        //   validForm = false;
+        //   var sMsg = oBundle.getText("langReq");
+        //   MessageToast.show(sMsg);
+        // }
+        // if(oDialogData.LANGUAGE !== 'EN' || oDialogData.LANGUAGE !== 'DE' || oDialogData.LANGUAGE !== 'RU'
+        // || oDialogData.LANGUAGE !== 'FR' || oDialogData.LANGUAGE !== 'PT' || oDialogData.LANGUAGE !== 'ES') {
+        //     validForm = false;
+        //     var sMsg = oBundle.getText("invalidLanguage");
+        //     MessageToast.show(sMsg);
+        // }
         oDialogData.AVAILBLE_BOOKS = oDialogData.AVAILBLE_BOOKS;
         oDialogData.TOTAL_NUMBER = oDialogData.TOTAL_NUMBER;
         if (oDialogData.AVAILBLE_BOOKS > oDialogData.TOTAL_NUMBER) {
@@ -222,6 +233,12 @@ sap.ui.define(
           var sMsg = oBundle.getText("langReq");
           MessageToast.show(sMsg);
         }
+        // if(oDialogData.Language !== 'EN' || oDialogData.Language !== 'DE' || oDialogData.Language !== 'RU'
+        //     || oDialogData.Language !== 'FR' || oDialogData.Language !== 'PT' || oDialogData.Language !== 'ES') {
+        //     validForm = false;
+        //     var sMsg = oBundle.getText("invalidLanguage");
+        //     MessageToast.show(sMsg);
+        // }
         oDialogData.AVAILBLE_BOOKS = oDialogData.AVAILBLE_BOOKS;
         oDialogData.TOTAL_NUMBER = oDialogData.TOTAL_NUMBER;
         if (oDialogData.AVAILBLE_BOOKS > oDialogData.TOTAL_NUMBER) {
@@ -333,6 +350,34 @@ sap.ui.define(
           MessageToast.show("This book can't be booked");
         }
       },
+
+      //   clearAllSortings: function (oEvent) {
+      //     var oTable = this.byId("idBooksTable");
+      //     oTable.getBinding("rows").sort(null);
+      //     this._resetSortingState();
+      //   },
+
+      //   sortISBN: function (oEvent) {
+      //     var oView = this.getView();
+      //     var oTable = oView.byId("idBooksTable");
+      //     var oCategoriesColumn = oView.byId("isbn");
+
+      //     oTable.sort(
+      //       oCategoriesColumn,
+      //       this._bSortColumnDescending
+      //         ? SortOrder.Descending
+      //         : SortOrder.Ascending,
+      //       /*extend existing sorting*/ true
+      //     );
+      //     this._bSortColumnDescending = !this._bSortColumnDescending;
+      //   },
+
+      //   sortCategoriesAndName: function (oEvent) {
+      //     var oView = this.getView();
+      //     var oTable = oView.byId("table");
+      //     oTable.sort(oView.byId("categories"), SortOrder.Ascending, false);
+      //     oTable.sort(oView.byId("name"), SortOrder.Ascending, true);
+      //   },
     });
   }
 );

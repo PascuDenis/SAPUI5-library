@@ -4,8 +4,7 @@ sap.ui.define(
     "sap/m/MessageToast",
     "sap/ui/core/Fragment",
     "sap/ui/model/resource/ResourceModel",
-    "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator",
+    "sap/ui/table/library",
     "sap/ui/model/Sorter",
   ],
   function (
@@ -13,11 +12,11 @@ sap.ui.define(
     MessageToast,
     Fragment,
     ResourceModel,
-    Filter,
-    FilterOperator,
-    Sorter
+    Sorter,
+    library
   ) {
     "use strict";
+    var SortOrder = library.SortOrder;
     return Controller.extend("org.ubb.books.controller.BookList", {
       onInit: function () {
         var i18nModel = new ResourceModel({
@@ -71,6 +70,7 @@ sap.ui.define(
 
         var oView = this.getView();
 
+        // create dialog lazily
         if (!this.byId("idBookAddDialog")) {
           // load asynchronous XML fragment
           Fragment.load({
@@ -116,6 +116,17 @@ sap.ui.define(
           var sMsg = oBundle.getText("titleReq");
           MessageToast.show(sMsg);
         }
+        // if (oDialogData.LANGUAGE.length === 0) {
+        //   validForm = false;
+        //   var sMsg = oBundle.getText("langReq");
+        //   MessageToast.show(sMsg);
+        // }
+        // if(oDialogData.LANGUAGE !== 'EN' || oDialogData.LANGUAGE !== 'DE' || oDialogData.LANGUAGE !== 'RU'
+        // || oDialogData.LANGUAGE !== 'FR' || oDialogData.LANGUAGE !== 'PT' || oDialogData.LANGUAGE !== 'ES') {
+        //     validForm = false;
+        //     var sMsg = oBundle.getText("invalidLanguage");
+        //     MessageToast.show(sMsg);
+        // }
         oDialogData.AVAILBLE_BOOKS = oDialogData.AVAILBLE_BOOKS;
         oDialogData.TOTAL_NUMBER = oDialogData.TOTAL_NUMBER;
         if (oDialogData.AVAILBLE_BOOKS > oDialogData.TOTAL_NUMBER) {
@@ -143,7 +154,7 @@ sap.ui.define(
         this.byId("idBookAddDialog").close();
       },
 
-      onUpdate(oEvent, flag) {
+      onUpdate(oEvent) {
         var oBundle = this.getView().getModel("i18n").getResourceBundle();
         const selectedRows = this.byId("idBooksTable").getSelectedContexts();
         if (selectedRows.length === 0) {
@@ -155,7 +166,6 @@ sap.ui.define(
             .byId("idBooksTable")
             .getSelectedContexts()[0]
             .getObject();
-
           var book = {
             ISBN: oObject.ISBN,
             AUTHOR: oObject.AUTHOR,
@@ -169,6 +179,8 @@ sap.ui.define(
             CHANGED_ON: "",
             CHANGED_BY: "",
           };
+
+          console.log(book);
 
           if (!this.byId("idBookUpdateDialog")) {
             // load asynchronous XML fragment
@@ -222,6 +234,12 @@ sap.ui.define(
           var sMsg = oBundle.getText("langReq");
           MessageToast.show(sMsg);
         }
+        // if(oDialogData.Language !== 'EN' || oDialogData.Language !== 'DE' || oDialogData.Language !== 'RU'
+        //     || oDialogData.Language !== 'FR' || oDialogData.Language !== 'PT' || oDialogData.Language !== 'ES') {
+        //     validForm = false;
+        //     var sMsg = oBundle.getText("invalidLanguage");
+        //     MessageToast.show(sMsg);
+        // }
         oDialogData.AVAILBLE_BOOKS = oDialogData.AVAILBLE_BOOKS;
         oDialogData.TOTAL_NUMBER = oDialogData.TOTAL_NUMBER;
         if (oDialogData.AVAILBLE_BOOKS > oDialogData.TOTAL_NUMBER) {
@@ -264,6 +282,7 @@ sap.ui.define(
             name: "org.ubb.books.view.CheckedOutBookListDialog",
             controller: this,
           }).then(function (oDialog) {
+            // connect dialog to the root view of this component (models, lifecycle)
             oView.addDependent(oDialog);
             oDialog.open();
           });
@@ -276,62 +295,78 @@ sap.ui.define(
         this.byId("idCheckedOutBooksDialog").close();
       },
 
-      handleCheckOutBook(oEvent) {
-        console.log("dada");
-        var oModel = oEvent.getSource().getModel();
-        var oDialogData = oModel.getData();
-
-        var oView = this.getView();
-        var oObject = oView
-          .byId("idBooksTable")
-          .getSelectedContexts()[0]
-          .getObject();
-
-        console.log(oObject);
-        console.log(oDialogData);
-
+      handleCheckBooks() {
         const aSelectedContexts = this.byId(
           "idBooksTable"
         ).getSelectedContexts();
         const sPath = aSelectedContexts[0].getPath();
 
-        // var selRow = this.byId("idBooksTable").getModel().getProperty(sPath);
-        var avBook = oObject.AVAILBLE_BOOKS;
+        var selRow = this.byId("idBooksTable").getModel().getProperty(sPath);
+        var availableVal = selRow.AVAILBLE_BOOKS;
+        console.log(selRow);
+        console.log(availableVal);
 
-        if (avBook > 0) {
-          console.log(avBook);
+        if (availableVal > 0) {
+          selRow.Available = selRow.AVAILBLE_BOOKS - 1;
 
-          avBook = avBook - 1;
-
-          var book = {
-            ISBN: oObject.ISBN,
-            AUTHOR: oObject.AUTHOR,
-            TITLE: oObject.TITLE,
-            DATE_PUBLISHED: oObject.DATE_PUBLISHED,
-            LANGUAGE: oObject.LANGUAGE,
-            TOTAL_NUMBER: oObject.TOTAL_NUMBER,
-            AVAILBLE_BOOKS: avBook.toString(),
-            CREATED_ON: "",
-            CREATED_BY: "",
-            CHANGED_ON: "",
-            CHANGED_BY: "",
+          console.log(availableVal);
+          var oBook = {
+            ISBN: "",
+            TITLE: "",
+            AUTHOR: "",
+            DATE_PUBLISHED: null,
+            LANGUAGE: "",
+            AVAILBLE_BOOKS: 0,
           };
 
-          console.log(book);
+          oBook.ISBN = selRow.ISBN;
+          oBook.TITLE = selRow.TITLE;
+          oBook.AUTHOR = selRow.AUTHOR;
+          oBook.DATE_PUBLISHED = selRow.DATE_PUBLISHED;
+          oBook.LANGUAGE = selRow.LANGUAGE;
+          oBook.AVAILBLE_BOOKS = selRow.AVAILBLE_BOOKS;
 
           this.getView()
             .getModel()
-            .update(sPath, book, {
+            .update(sPath, oBook, {
               success: function () {
-                MessageToast.show("Booked!");
+                MessageToast.show("Booked! :)");
               },
               error: function () {
-                MessageToast.show("Error from the server side :(");
+                MessageToast.show("Error from the dark side :(");
               },
             });
         } else {
-          MessageToast.show("This book can't be booked");
+          MessageToast.show("That book is kinda red. Can not book... :(");
         }
+      },
+
+      clearAllSortings: function (oEvent) {
+        var oTable = this.byId("idBooksTable");
+        oTable.getBinding("rows").sort(null);
+        this._resetSortingState();
+      },
+
+      sortISBN: function (oEvent) {
+        var oView = this.getView();
+        var oTable = oView.byId("idBooksTable");
+        var oCategoriesColumn = oView.byId("isbn");
+
+        oTable.sort(
+          oCategoriesColumn,
+          this._bSortColumnDescending
+            ? SortOrder.Descending
+            : SortOrder.Ascending,
+          /*extend existing sorting*/ true
+        );
+        this._bSortColumnDescending = !this._bSortColumnDescending;
+      },
+
+      sortCategoriesAndName: function (oEvent) {
+        var oView = this.getView();
+        var oTable = oView.byId("table");
+        oTable.sort(oView.byId("categories"), SortOrder.Ascending, false);
+        oTable.sort(oView.byId("name"), SortOrder.Ascending, true);
       },
     });
   }

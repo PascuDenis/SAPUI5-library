@@ -37,7 +37,7 @@
                 <Column>
                     <Text text="{i18n>author}"/>
                 </Column>
-
+                
             </columns>
             <items>
                 <ColumnListItem>

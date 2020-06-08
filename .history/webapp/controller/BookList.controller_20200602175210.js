@@ -6,15 +6,15 @@ sap.ui.define(
     "sap/ui/model/resource/ResourceModel",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "sap/ui/model/Sorter",
+    "sap/ui/model/Sorter"
   ],
   function (
     Controller,
     MessageToast,
     Fragment,
     ResourceModel,
-    Filter,
-    FilterOperator,
+    Filter, 
+    FilterOperator, 
     Sorter
   ) {
     "use strict";
@@ -71,6 +71,7 @@ sap.ui.define(
 
         var oView = this.getView();
 
+        // create dialog lazily
         if (!this.byId("idBookAddDialog")) {
           // load asynchronous XML fragment
           Fragment.load({
@@ -116,6 +117,17 @@ sap.ui.define(
           var sMsg = oBundle.getText("titleReq");
           MessageToast.show(sMsg);
         }
+        // if (oDialogData.LANGUAGE.length === 0) {
+        //   validForm = false;
+        //   var sMsg = oBundle.getText("langReq");
+        //   MessageToast.show(sMsg);
+        // }
+        // if(oDialogData.LANGUAGE !== 'EN' || oDialogData.LANGUAGE !== 'DE' || oDialogData.LANGUAGE !== 'RU'
+        // || oDialogData.LANGUAGE !== 'FR' || oDialogData.LANGUAGE !== 'PT' || oDialogData.LANGUAGE !== 'ES') {
+        //     validForm = false;
+        //     var sMsg = oBundle.getText("invalidLanguage");
+        //     MessageToast.show(sMsg);
+        // }
         oDialogData.AVAILBLE_BOOKS = oDialogData.AVAILBLE_BOOKS;
         oDialogData.TOTAL_NUMBER = oDialogData.TOTAL_NUMBER;
         if (oDialogData.AVAILBLE_BOOKS > oDialogData.TOTAL_NUMBER) {

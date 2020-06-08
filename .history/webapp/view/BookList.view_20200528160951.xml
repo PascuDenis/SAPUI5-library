@@ -1,0 +1,182 @@
+<!-- <mvc:View controllerName="org.ubb.books.controller.BookList" 
+    xmlns:u="sap.ui.unified" 
+    xmlns:mvc="sap.ui.core.mvc" 
+    xmlns:core="sap.ui.core" 
+    xmlns="sap.m">
+
+    <Table id="idBooksTable" items="{
+			path: '/BOOKS',
+			sorter: {
+				path: 'ISBN'
+			}
+		}" mode="SingleSelectLeft" growing="true" growingThreshold="10">
+        <headerToolbar>
+            <Toolbar>
+                <Button icon="sap-icon://add" text="Add new book" press="onAdd"/>
+                <Button icon="sap-icon://edit" text="Update book" press="onUpdate"/>
+                <Button icon="sap-icon://list" text="See checked out books" press="onSeeCheckedOut"/>
+                <ToolbarSpacer/>
+                <Button icon="sap-icon://delete" text="Delete book" press="onDelete"/>
+            </Toolbar>
+        </headerToolbar>
+
+        <columns>
+            <Column>
+                <Text text="{i18n>title}"/>
+            </Column>
+            <Column>
+                <Text text="{i18n>author}"/>
+            </Column>
+            <Column>
+                <Text text="{i18n>publOn}"/>
+            </Column>
+            <Column>
+                <Text text="{i18n>language}"/>
+            </Column>
+            <Column>
+                <Text text="{i18n>avBooks}"/>
+            </Column>
+            <Column>
+                <Text text="{i18n>totBooks}"/>
+            </Column>
+            <Column>
+                <Text text="{i18n>createdOn}"/>
+            </Column>
+            <Column>
+                <Text text="{i18n>createdBy}"/>
+            </Column>
+            <Column>
+                <Text text="{i18n>changedOn}"/>
+            </Column>
+            <Column>
+                <Text text="{i18n>changedBy}"/>
+            </Column>
+
+        </columns>
+        <items>
+            <ColumnListItem>
+                <cells>
+                    <ObjectIdentifier title="{TITLE}" text="{ISBN}"/>
+                    <Text text="{AUTHOR}"/>
+                    <Text text="{
+							path: 'DATE_PUBLISHED',
+							type: 'sap.ui.model.type.Date'
+               			}" />
+                    <Text text="{LANGUAGE}"/>
+                    <Text text="{AVAILBLE_BOOKS}"/>
+                    <Text text="{TOTAL_NUMBER}"/>
+                    <Text text="{CREATED_ON}"/>
+                    <Text text="{CREATED_BY}"/>
+                    <Text text="{CHANGED_ON}"/>
+                    <Text text="{CHANGED_BY}"/>
+                    <Text text="{= parseInt(${AVAILBLE_BOOKS}) }"/>
+                    <Text text="{= parseInt(${TOTAL_NUMBER}) }"/>
+                    <Text text="{= parseInt(${CREATED_ON}) }"/>
+                    <Text text="{= parseInt(${CREATED_BY}) }"/>
+                    <Text text="{= parseInt(${CHANGED_ON}) }"/>
+                    <Text text="{= parseInt(${CHANGED_BY}) }"/>
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+
+</mvc:View> -->
+
+
+<mvc:View
+	controllerName="org.ubb.books.controller.BookList" 
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:u="sap.ui.unified"
+	xmlns:c="sap.ui.core"
+	xmlns:m="sap.m"
+	height="100%">
+	<m:Page
+		showHeader="false"
+		enableScrolling="false"
+		class="sapUiContentPadding">
+		<m:content>
+			<Table
+				id="table"
+				selectionMode="MultiToggle"
+				rows="{/ProductCollection}"
+				visibleRowCount="7"
+				sort="sortDeliveryDate"
+				ariaLabelledBy="title">
+				<extension>
+					<m:OverflowToolbar>
+						<m:Title id="title" text="Products"/>
+						<m:ToolbarSpacer/>
+						<m:Button
+							icon="sap-icon://sorting-ranking"
+							tooltip="Sort ascending across Categories and Name"
+							press="sortCategoriesAndName"/>
+						<m:Button
+							icon="sap-icon://sort"
+							tooltip="Sort Categories"
+							press="sortCategories"/>
+						<m:Button
+							icon="sap-icon://decline"
+							tooltip="Clear all sortings"
+							press="clearAllSortings"/>
+					</m:OverflowToolbar>
+				</extension>
+				<columns>
+					<Column
+						id="name"
+						width="11rem"
+						sortProperty="Name">
+						<m:Label text="Product Name" />
+						<template>
+							<m:Text text="{Name}" wrapping="false" />
+						</template>
+					</Column>
+					<Column
+						id="categories"
+						width="11rem"
+						showSortMenuEntry="false"
+						sortProperty="Category">
+						<m:Label text="Category" />
+						<template>
+							<m:Text text="{Category}" wrapping="false" />
+						</template>
+					</Column>
+					<Column width="9rem">
+						<m:Label text="Image" />
+						<template>
+							<m:Link text="Show Image" href="{ProductPicUrl}" target="_blank"/>
+						</template>
+					</Column>
+					<Column
+						id="quantity"
+						width="6rem"
+						hAlign="End"
+						sortProperty="Quantity">
+						<m:Label text="Quantity" />
+						<template>
+							<m:Label text="{
+								path: 'Quantity',
+								type: 'sap.ui.model.type.Integer'
+							}" />
+						</template>
+					</Column>
+					<Column
+						id="deliverydate"
+						width="9rem"
+						sortProperty="DeliveryDateStr">
+						<m:Label text="Delivery Date" />
+						<template>
+							<m:Text text="{
+								path: 'DeliveryDateStr',
+								type: 'sap.ui.model.type.Date',
+								formatOptions: {source: {pattern: 'dd/MM/yyyy'}, style: 'long'}
+							}" wrapping="false" />
+						</template>
+					</Column>
+				</columns>
+				<footer>
+					<m:OverflowToolbar id="infobar"></m:OverflowToolbar>
+				</footer>
+			</Table>
+		</m:content>
+	</m:Page>
+</mvc:View>

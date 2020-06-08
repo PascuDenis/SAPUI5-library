@@ -6,15 +6,15 @@ sap.ui.define(
     "sap/ui/model/resource/ResourceModel",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "sap/ui/model/Sorter",
+    "sap/ui/model/Sorter"
   ],
   function (
     Controller,
     MessageToast,
     Fragment,
     ResourceModel,
-    Filter,
-    FilterOperator,
+    Filter, 
+    FilterOperator, 
     Sorter
   ) {
     "use strict";
@@ -71,6 +71,7 @@ sap.ui.define(
 
         var oView = this.getView();
 
+        // create dialog lazily
         if (!this.byId("idBookAddDialog")) {
           // load asynchronous XML fragment
           Fragment.load({

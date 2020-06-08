@@ -11,6 +11,7 @@
 		}" mode="SingleSelectLeft" growing="true" growingThreshold="10">
             <headerToolbar>
                 <Toolbar>
+                    <Button icon="sap-icon://add" text="Check selected book out" press="handleCheckBooks"/>
                     <ToolbarSpacer/>
                     <Button icon="sap-icon://sys-cancel" text="Close" press="handleCloseCheckedOutBooksDialog"/>
                 </Toolbar>
@@ -37,7 +38,7 @@
                 <Column>
                     <Text text="{i18n>author}"/>
                 </Column>
-
+                
             </columns>
             <items>
                 <ColumnListItem>

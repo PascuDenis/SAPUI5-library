@@ -1,43 +1,41 @@
-<mvc:View controllerName="org.ubb.books.controller.BookList" 
-    xmlns:mvc="sap.ui.core.mvc" 
-    xmlns:core="sap.ui.core" 
-    xmlns="sap.m">
+<mvc:View
+        controllerName="org.ubb.books.controller.BookList"
+	xmlns:u="sap.ui.unified"
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:core="sap.ui.core"
+        xmlns="sap.m">
 
-    <Table id="idBooksTable" items="{
+    <Table id="idBooksTable"
+           items="{
 			path: '/BOOKS',
 			sorter: {
 				path: 'ISBN'
 			}
-		}" mode="SingleSelectLeft" growing="true" growingThreshold="10">
+		}"
+           mode="SingleSelectLeft"
+           growing="true"
+           growingThreshold="10">
         <headerToolbar>
             <Toolbar>
-                <content>
-
-                    <Button icon="sap-icon://add" text="Add new book" press="onAdd"/>
-                    <Button icon="sap-icon://edit" text="Update book" press="onUpdate"/>
-                    <Button icon="sap-icon://delete" text="Delete book" press="onDelete"/>
-                    <ToolbarSpacer/>
-                    <Button icon="sap-icon://bullet-text" text="See checked out books" press="onSeeCheckedOut"/>
-                    <Button icon="sap-icon://add" text="Check selected book out" press="handleCheckOutBook"/>
-
-                </content>
+                <Button icon="sap-icon://add" text="Add new book" press="onAdd"/>
+                <Button icon="sap-icon://edit" text="Update book" press="onUpdate"/>
+                <Button icon="sap-icon://list" text="See checked out books" press="onSeeCheckedOut"/>
+                <ToolbarSpacer/>
+                <Button icon="sap-icon://delete" text="Delete book" press="onDelete"/>
             </Toolbar>
         </headerToolbar>
 
         <columns>
-            <Column id="isbn" sortProperty="ISBN">
-                <Text text="{i18n>isbn}"/>
-            </Column>
-            <Column id="title" sortProperty="Title">
+            <Column>
                 <Text text="{i18n>title}"/>
             </Column>
-            <Column id="author" showSortMenuEntry="false" sortProperty="Author">
+            <Column>
                 <Text text="{i18n>author}"/>
             </Column>
-            <Column id="published" sortProperty="PublishedDate">
+            <Column>
                 <Text text="{i18n>publOn}"/>
             </Column>
-            <Column id="language" sortProperty="Language">
+            <Column>
                 <Text text="{i18n>language}"/>
             </Column>
             <Column>
@@ -63,13 +61,15 @@
         <items>
             <ColumnListItem>
                 <cells>
-                    <ObjectIdentifier text="{ISBN}"/>
-                    <Text text="{TITLE}"/>
+                    <ObjectIdentifier
+                            title="{TITLE}"
+                            text="{ISBN}"/>
                     <Text text="{AUTHOR}"/>
                     <Text text="{
 							path: 'DATE_PUBLISHED',
 							type: 'sap.ui.model.type.Date'
-               			}" />
+               			}"
+                    />
                     <Text text="{LANGUAGE}"/>
                     <Text text="{AVAILBLE_BOOKS}"/>
                     <Text text="{TOTAL_NUMBER}"/>
@@ -77,6 +77,12 @@
                     <Text text="{CREATED_BY}"/>
                     <Text text="{CHANGED_ON}"/>
                     <Text text="{CHANGED_BY}"/>
+                    <!-- <Text text="{= parseInt(${AVAILBLE_BOOKS}) }"/>
+                    <Text text="{= parseInt(${TOTAL_NUMBER}) }"/>
+                    <Text text="{= parseInt(${CREATED_ON}) }"/>
+                    <Text text="{= parseInt(${CREATED_BY}) }"/>
+                    <Text text="{= parseInt(${CHANGED_ON}) }"/>
+                    <Text text="{= parseInt(${CHANGED_BY}) }"/> -->
                 </cells>
             </ColumnListItem>
         </items>
